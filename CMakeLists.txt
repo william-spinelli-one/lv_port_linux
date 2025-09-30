@@ -383,6 +383,8 @@ find_package(PNG REQUIRED)
 target_link_libraries(lvgl PUBLIC PNG::PNG)
 find_package(JPEG REQUIRED)
 target_link_libraries(lvgl PUBLIC JPEG::JPEG)
+find_package(Freetype REQUIRED)
+target_link_libraries(lvgl PUBLIC Freetype::Freetype)
 
 add_executable(lvglsim src/main.c src/demo.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl)
