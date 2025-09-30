@@ -13,9 +13,10 @@ void demo_widgets(void)
     lv_demo_widgets_start_slideshow();
 }
 
-#define MAX_IMAGES 5
+#define MAX_IMAGES 6
 #define PNG_IMAGES 3
-lv_obj_t* img[MAX_IMAGES] = {NULL, NULL, NULL, NULL};
+#define JPG_IMAGES 2
+lv_obj_t* img[MAX_IMAGES] = {NULL};
 
 void demo_scroll(void)
 {
@@ -38,8 +39,10 @@ void demo_scroll(void)
         char image_path[100];
         if (i < PNG_IMAGES) {
             snprintf(image_path, sizeof(image_path), RESOURCES_PATH "image_%d.png", i + 1);
-        } else {
+        } else if (i < PNG_IMAGES + JPG_IMAGES) {
             snprintf(image_path, sizeof(image_path), RESOURCES_PATH "image_%d.jpg", i + 1);
+        } else {
+            snprintf(image_path, sizeof(image_path), RESOURCES_PATH "image_%d.svg", i + 1);
         }
         lv_image_set_src(img[i], image_path);
     }

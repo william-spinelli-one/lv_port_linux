@@ -117,10 +117,12 @@ static lv_display_t *init_glfw3(void)
     mouse = lv_glfw_texture_get_mouse_indev(window_texture);
 
     /* add a cursor to the mouse indev */
-    LV_IMAGE_DECLARE(mouse_cursor_icon);
-    cursor_obj = lv_image_create(lv_screen_active());
-    lv_image_set_src(cursor_obj, &mouse_cursor_icon);
-    lv_indev_set_cursor(mouse, cursor_obj);
+    // LV_IMAGE_DECLARE(mouse_cursor_icon);
+    // cursor_obj = lv_image_create(lv_screen_active());
+    // lv_image_set_src(cursor_obj, &mouse_cursor_icon);
+    // lv_indev_set_cursor(mouse, cursor_obj);
+    (void)mouse;
+    (void)cursor_obj;
 
     return disp_texture;
 }
