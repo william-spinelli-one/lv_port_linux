@@ -180,7 +180,7 @@ if (CONFIG_LV_USE_WAYLAND)
     if(DEFINED ENV{SDKTARGETSYSROOT} AND DEFINED ENV{SYSROOT})
         message(FATAL_ERROR "Both SDKTARGETSYSROOT and SYSROOT are set. Please set only one.")
     endif()
-    
+
     if(DEFINED ENV{SDKTARGETSYSROOT})
         set(PROTOCOL_ROOT "$ENV{SDKTARGETSYSROOT}/usr/share/wayland-protocols")
     elseif(DEFINED ENV{SYSROOT})
@@ -188,40 +188,40 @@ if (CONFIG_LV_USE_WAYLAND)
     else()
         set(PROTOCOL_ROOT "/usr/share/wayland-protocols")
     endif()
-    
+
     if(NOT EXISTS ${PROTOCOL_ROOT})
         message(FATAL_ERROR "Wayland protocols not found at ${PROTOCOL_ROOT}")
     endif()
-    
+
     set(PROTOCOLS_DIR "${CMAKE_CURRENT_BINARY_DIR}/protocols")
     file(MAKE_DIRECTORY ${PROTOCOLS_DIR})
-    
+
     set(WAYLAND_PROTOCOLS_SRC "")
-    
+
     # Generate xdg-shell protocol (always)
     set(XDG_SHELL_XML "${PROTOCOL_ROOT}/stable/xdg-shell/xdg-shell.xml")
     set(XDG_SHELL_HEADER "${PROTOCOLS_DIR}/wayland_xdg_shell.h")
     set(XDG_SHELL_SOURCE "${PROTOCOLS_DIR}/wayland_xdg_shell.c")
-    
+
     if(NOT EXISTS ${XDG_SHELL_HEADER} OR NOT EXISTS ${XDG_SHELL_SOURCE})
         execute_process(COMMAND wayland-scanner client-header ${XDG_SHELL_XML} ${XDG_SHELL_HEADER})
         execute_process(COMMAND wayland-scanner private-code ${XDG_SHELL_XML} ${XDG_SHELL_SOURCE})
     endif()
     list(APPEND WAYLAND_PROTOCOLS_SRC ${XDG_SHELL_SOURCE})
-    
+
     # Generate dmabuf protocol (if config is set)
     if(CONFIG_LV_WAYLAND_USE_DMABUF)
         set(DMABUF_XML "${PROTOCOL_ROOT}/stable/linux-dmabuf/linux-dmabuf-v1.xml")
         set(DMABUF_HEADER "${PROTOCOLS_DIR}/wayland_linux_dmabuf.h")
         set(DMABUF_SOURCE "${PROTOCOLS_DIR}/wayland_linux_dmabuf.c")
-        
+
         if(NOT EXISTS ${DMABUF_HEADER} OR NOT EXISTS ${DMABUF_SOURCE})
             execute_process(COMMAND wayland-scanner client-header ${DMABUF_XML} ${DMABUF_HEADER})
             execute_process(COMMAND wayland-scanner private-code ${DMABUF_XML} ${DMABUF_SOURCE})
         endif()
         list(APPEND WAYLAND_PROTOCOLS_SRC ${DMABUF_SOURCE})
     endif()
-    
+
     list(APPEND PKG_CONFIG_INC ${PROTOCOLS_DIR})
     list(APPEND LV_LINUX_BACKEND_SRC src/lib/display_backends/wayland.c ${WAYLAND_PROTOCOLS_SRC})
 
@@ -378,7 +378,13 @@ target_include_directories(lvgl_linux PUBLIC
 # Link LVGL with external dependencies - Modern CMake/CMP0079 allows this
 target_link_libraries(lvgl PUBLIC ${PKG_CONFIG_LIB} m pthread)
 
-add_executable(lvglsim src/main.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
+# Additional dependencies
+find_package(PNG REQUIRED)
+target_link_libraries(lvgl PUBLIC PNG::PNG)
+find_package(JPEG REQUIRED)
+target_link_libraries(lvgl PUBLIC JPEG::JPEG)
+
+add_executable(lvglsim src/main.c src/demo.c ${LV_LINUX_SRC} ${LV_LINUX_BACKEND_SRC})
 target_link_libraries(lvglsim lvgl_linux lvgl)
 
 if(WERROR)

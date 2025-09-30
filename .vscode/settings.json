@@ -1,0 +1,11 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+        "stdio.h": "c",
+        "pthread.h": "c",
+        "string.h": "c",
+        "*.tcc": "c",
+        "cstdio": "c",
+        "lv_demos.h": "c"
+    }
+}

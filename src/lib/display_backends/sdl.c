@@ -92,6 +92,9 @@ static lv_display_t *init_sdl(void)
     lv_display_t *disp;
 
     disp = lv_sdl_window_create(settings.window_width, settings.window_height);
+    lv_sdl_mouse_create();
+    lv_sdl_mousewheel_create();
+    lv_sdl_keyboard_create();
 
     if (disp == NULL) {
         return NULL;
