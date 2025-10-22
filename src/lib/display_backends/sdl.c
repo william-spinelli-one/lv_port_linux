@@ -92,7 +92,11 @@ static lv_display_t *init_sdl(void)
     lv_display_t *disp;
 
     disp = lv_sdl_window_create(settings.window_width, settings.window_height);
-    lv_sdl_mouse_create();
+    lv_indev_t *mouse = lv_sdl_mouse_create();
+    LV_IMAGE_DECLARE(mouse_cursor_icon);
+    lv_obj_t *cursor_obj = lv_image_create(lv_screen_active());
+    lv_image_set_src(cursor_obj, &mouse_cursor_icon);
+    lv_indev_set_cursor(mouse, cursor_obj);
     lv_sdl_mousewheel_create();
     lv_sdl_keyboard_create();
 

@@ -5,8 +5,8 @@
 #include "lvgl/lvgl.h"
 #include "lvgl/demos/lv_demos.h"
 
-#define LVGL_RESOURCES_PATH "A:/projects/lvgl/lv_port_linux/src/resources/"
-#define RESOURCES_PATH "/projects/lvgl/lv_port_linux/src/resources/"
+#define LVGL_RESOURCES_PATH "A:/home/one/"
+#define RESOURCES_PATH "/home/one/"
 
 static void scroll_x_anim_cb(void *obj, int32_t v)
 {
@@ -26,7 +26,8 @@ void demo_widgets(void)
 #define PNG_IMAGES 3
 #define JPG_IMAGES 2
 
-static void toggle_scroll_animation_event_cb(lv_event_t * e)
+void toggle_scroll_animation_event_cb(lv_event_t * e);
+void toggle_scroll_animation_event_cb(lv_event_t * e)
 {
     lv_obj_t *btn = lv_event_get_target(e);
     lv_obj_t *container = lv_event_get_user_data(e);
@@ -68,7 +69,7 @@ void demo_scroll(void)
 
 
     lv_obj_t *container = lv_obj_create(screen);
-    lv_obj_set_size(container, LV_HOR_RES, LV_VER_RES - 100);
+    lv_obj_set_size(container, LV_HOR_RES, LV_VER_RES - 0);
     lv_obj_set_flex_flow(container, LV_FLEX_FLOW_ROW);
     lv_obj_set_scrollbar_mode(container, LV_SCROLLBAR_MODE_ON);
     lv_obj_set_scroll_dir(container, LV_DIR_HOR);
@@ -97,17 +98,21 @@ void demo_scroll(void)
         snprintf(label_text, sizeof(label_text), "Image %d", i + 1);
         lv_label_set_text(label, label_text);
         lv_obj_set_style_text_font(label, roboto_font, 0);
-        lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), 0);
+        if (i != MAX_IMAGES - 1) {
+            lv_obj_set_style_text_color(label, lv_color_hex(0xFFFFFF), 0);
+        } else {
+            lv_obj_set_style_text_color(label, lv_color_hex(0x000000), 0);
+        }
         lv_obj_center(label);
     }
 
-    lv_obj_t *btn = lv_button_create(screen);
-    lv_obj_set_size(btn, 600, 80);
-    lv_obj_align(btn, LV_ALIGN_BOTTOM_MID, 0, -10);
-    lv_obj_add_event_cb(btn, toggle_scroll_animation_event_cb, LV_EVENT_CLICKED, container);
+    // lv_obj_t *btn = lv_button_create(screen);
+    // lv_obj_set_size(btn, 600, 80);
+    // lv_obj_align(btn, LV_ALIGN_BOTTOM_MID, 0, -10);
+    // lv_obj_add_event_cb(btn, toggle_scroll_animation_event_cb, LV_EVENT_CLICKED, container);
 
-    lv_obj_t *btn_label = lv_label_create(btn);
-    lv_label_set_text(btn_label, "SCROLL ON");
-    lv_obj_set_style_text_font(btn_label, roboto_font, 0);
-    lv_obj_center(btn_label);
+    // lv_obj_t *btn_label = lv_label_create(btn);
+    // lv_label_set_text(btn_label, "SCROLL ON");
+    // lv_obj_set_style_text_font(btn_label, roboto_font, 0);
+    // lv_obj_center(btn_label);
 }

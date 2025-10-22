@@ -110,6 +110,9 @@ static void run_loop_drm(void)
     while (true) {
         /* Returns the time to the next timer execution */
         idle_time = lv_timer_handler();
+        if(idle_time == LV_NO_TIMER_READY) {
+            idle_time = LV_DEF_REFR_PERIOD;
+        }
         usleep(idle_time * 1000);
     }
 }
