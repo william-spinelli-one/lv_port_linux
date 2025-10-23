@@ -6,6 +6,10 @@
         "string.h": "c",
         "*.tcc": "c",
         "cstdio": "c",
-        "lv_demos.h": "c"
+        "lv_demos.h": "c",
+        "lv_demo_render.h": "c",
+        "lv_demo_benchmark.h": "c",
+        "lv_demo_gltf.h": "c",
+        "lv_global.h": "c"
     }
 }

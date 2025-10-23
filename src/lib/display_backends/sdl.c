@@ -24,6 +24,7 @@
 #include "../simulator_util.h"
 #include "../simulator_settings.h"
 #include "../backends.h"
+#include <SDL2/SDL.h>
 
 /*********************
  *      DEFINES
@@ -99,6 +100,9 @@ static lv_display_t *init_sdl(void)
     lv_indev_set_cursor(mouse, cursor_obj);
     lv_sdl_mousewheel_create();
     lv_sdl_keyboard_create();
+
+    // Disable vsync
+    // SDL_GL_SetSwapInterval(0);
 
     if (disp == NULL) {
         return NULL;

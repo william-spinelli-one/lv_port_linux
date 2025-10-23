@@ -79,6 +79,14 @@ int backend_init_drm(backend_t *backend)
  *   STATIC FUNCTIONS
  **********************/
 
+static size_t custom_mode_selector(lv_display_t * disp, const lv_linux_drm_mode_t * modes, size_t mode_count)
+{
+    (void)disp;
+    (void)modes;
+    (void)mode_count;
+    return 8;   // Select 800x600
+}
+
 /**
  * Initialize the DRM display driver
  *
@@ -93,6 +101,7 @@ static lv_display_t *init_drm(void)
         return NULL;
     }
 
+    lv_linux_drm_set_mode_cb(disp, custom_mode_selector);
     lv_linux_drm_set_file(disp, device, -1);
 
     return disp;
